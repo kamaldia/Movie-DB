@@ -14,5 +14,6 @@
     "dev": "nodemon index.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "keywords": []
 }
