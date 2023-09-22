@@ -6,12 +6,12 @@ const time = ((new Date()).getHours()) + ":" +((new Date()).getMinutes()); // de
 
 app.get('/test', (req, res) => { // test route returns ok
   res.status(200);
-  res.send("ok");
+  res.send("status:200, message:\"ok\"");
 });
 
 app.get('/time', (req, res) => { // time rout returns current time
   res.status(200);
-  res.send(time);
+  res.send("status:200, message:\"" + time +"\"");
 });
 
 app.listen(the_port, (error) => { // listener to know if server is running
