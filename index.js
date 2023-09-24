@@ -56,7 +56,7 @@ app.get("/movies/get/by-title", (req, res) => {
   res.send(`status:200, message:"ok", data: ${movies_by_title.map((movie) => " " + movie.title)}`)
 })
 
-/* ---------------------------------------------------------------------- */
+/* Step 7 --------------------------------------------------------------- */
 
 app.get("/movies/get/id/:id", (req, res) => {
   const id = req.params.id;
@@ -70,6 +70,36 @@ app.get("/movies/get/id/:id", (req, res) => {
     res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`)
   }
 })
+
+/* Step 8 --------------------------------------------------------------- */
+
+app.get("/movies/add", (req, res) => {
+  const movie_add_title = req.query.title;
+  const movie_add_year = req.query.year;
+  const movie_add_rating = req.query.rating;
+  if (movie_add_title !== undefined && (movie_add_year !== undefined && movie_add_year.length === 4) && !isNaN(movie_add_year)) { // added (undefined and length) to avoid error when no year query is given
+    let movie = {};
+    movie.title = movie_add_title;
+    movie.year = parseFloat(movie_add_year);
+    if (movie_add_rating !== undefined){
+      movie.rating = parseFloat(movie_add_rating);
+    }
+    else {
+      movie.rating = 4;
+    }
+    movies.push(movie);
+    console.log(movies);
+    const movie_list = movies.map((movie) => " " + movie.title); //mapping over list, taking the title from each object and adding a space to seperate them
+    res.status(200);
+    res.send(`status:200, message:"ok", data: ${movie_list}`);
+  }
+  else{
+    res.status(403);
+    res.send(`status:403, error:true, message: you cannot create a movie without providing a title and a year.`)
+  }
+})
+
+/* --------------------------------------------------------------------- */
 
 // app.get("/movies", (req, res) => {
 //   const movie_add = req.query.add;
