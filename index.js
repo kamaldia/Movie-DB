@@ -3,7 +3,7 @@ const express = require("express"); //requesting express framework
 const app = express();
 const the_port = 3001; //assigning server port to 3001
 const time = ((new Date()).getHours()) + ":" +((new Date()).getMinutes()); // declaring variable time to store hours and minutes (HH:MM)
-const movies = [{title: "Jaws", year: 1975, rating: 8 }, {title: "Avatar", year: 2009, rating: 7.8}, {title: "Brazil", year: 1985, rating: 8}]; //movies array
+const movies = [{id: 1, title: "Jaws", year: 1975, rating: 8}, {id: 2, title: "Avatar", year: 2009, rating: 7.8}, {id: 3, title: "Brazil", year: 1985, rating: 8}]; //movies array
 
 app.get('/test', (req, res) => { // test route returns ok
   res.status(200);
@@ -57,6 +57,19 @@ app.get("/movies/get/by-title", (req, res) => {
 })
 
 /* ---------------------------------------------------------------------- */
+
+app.get("/movies/get/id/:id", (req, res) => {
+  const id = req.params.id;
+  const movie_by_id = movies.find((movie) => movie.id == id) // used find() since id is unique
+  if (movie_by_id) {
+    res.status(200);
+    res.send(`status:200, message:"ok", data: ${movie_by_id.title}`)
+  }
+  else {
+    res.status(404);
+    res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`)
+  }
+})
 
 // app.get("/movies", (req, res) => {
 //   const movie_add = req.query.add;
