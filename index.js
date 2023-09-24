@@ -88,7 +88,7 @@ app.get("/movies/add", (req, res) => {
       movie.rating = 4;
     }
     movies.push(movie);
-    console.log(movies);
+    // console.log(movies);
     const movie_list = movies.map((movie) => " " + movie.title); //mapping over list, taking the title from each object and adding a space to seperate them
     res.status(200);
     res.send(`status:200, message:"ok", data: ${movie_list}`);
@@ -96,6 +96,25 @@ app.get("/movies/add", (req, res) => {
   else{
     res.status(403);
     res.send(`status:403, error:true, message: you cannot create a movie without providing a title and a year.`)
+  }
+})
+
+/* Step 9 --------------------------------------------------------------- */
+
+app.get("/movies/delete/:id", (req, res) => {
+  const id = req.params.id;
+  const movie_by_id = movies.find((movie) => movie.id == id) // used find() since id is unique
+  if (movie_by_id) {
+    i = movies.findIndex((movie) => movie.id == id);
+    movies.splice(i,1);
+    console.log(movies);
+    const movie_list = movies.map((movie) => " " + movie.title); //mapping over list, taking the title from each object and adding a space to seperate them
+    res.status(200);
+    res.send(`status:200, message:"ok", data: ${movie_list}`);
+  }
+  else {
+    res.status(404);
+    res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`)
   }
 })
 
