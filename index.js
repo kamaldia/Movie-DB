@@ -107,7 +107,7 @@ app.get("/movies/delete/:id", (req, res) => {
   if (movie_by_id) {
     i = movies.findIndex((movie) => movie.id == id);
     movies.splice(i,1);
-    console.log(movies);
+    // console.log(movies);
     const movie_list = movies.map((movie) => " " + movie.title); //mapping over list, taking the title from each object and adding a space to seperate them
     res.status(200);
     res.send(`status:200, message:"ok", data: ${movie_list}`);
@@ -118,7 +118,39 @@ app.get("/movies/delete/:id", (req, res) => {
   }
 })
 
-/* --------------------------------------------------------------------- */
+/* Step 10 --------------------------------------------------------------- */
+
+
+app.get("/movies/edit/:id", (req, res) => {
+  const id = req.params.id;
+  const new_title = req.query.title;
+  const new_year = req.query.year;
+  const new_rating = req.query.rating;
+  const movie_found = movies.find(movie => movie.id == id); //used == since id is taken as string
+  // console.log(movie_found);
+  if (movie_found) { // if movie in query exists in the array, it will execute
+    const i = movies.findIndex(movie => movie.id == id);
+    if (new_title) {  // chexck if new_title is not undefined
+      movies[i].title = new_title;
+    }
+    if (new_year && new_year.length === 4 && !isNaN(new_year)) {
+      movies[i].year = parseFloat(new_year);
+    }
+    if (new_rating && !isNaN(new_rating)) {
+      movies[i].rating = parseFloat(new_rating);
+    }
+    const movie_list = movies.map((movie) => " " + movie.title);
+    res.status(200);
+    res.send(`status:200, message:"ok", data: ${movie_list}`);
+  }
+  else { // if entered movie id is not in array
+    res.status(404);
+    res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`);
+  }
+  // console.log(movie_found);
+})
+
+/* ----------------------------------------------------------------------- */
 
 // app.get("/movies", (req, res) => {
 //   const movie_add = req.query.add;
