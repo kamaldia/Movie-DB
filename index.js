@@ -73,7 +73,7 @@ app.get("/movies/get/id/:id", (req, res) => {
 
 /* Step 8 --------------------------------------------------------------- */
 
-app.get("/movies/add", (req, res) => {
+app.get("/movies/post", (req, res) => {
   const movie_add_title = req.query.title;
   const movie_add_year = req.query.year;
   const movie_add_rating = req.query.rating;
@@ -121,7 +121,7 @@ app.get("/movies/delete/:id", (req, res) => {
 /* Step 10 --------------------------------------------------------------- */
 
 
-app.get("/movies/edit/:id", (req, res) => {
+app.get("/movies/put/:id", (req, res) => {
   const id = req.params.id;
   const new_title = req.query.title;
   const new_year = req.query.year;
@@ -150,7 +150,11 @@ app.get("/movies/edit/:id", (req, res) => {
   // console.log(movie_found);
 })
 
-/* ----------------------------------------------------------------------- */
+/* Step 11 ---------------------------------------------------------------- */
+
+//Changed URLs, to get, post, put, delete
+
+/* ------------------------------------------------------------------------ */
 
 // app.get("/movies", (req, res) => {
 //   const movie_add = req.query.add;
