@@ -16,5 +16,20 @@ const movie_schema = mongoose.Schema( {
   }
 })
 
+// Step 13 =========================================================
+
+const user_schema = mongoose.Schema( {
+  user_name: {
+    type: String,
+    required: [true, "Wrong username or password"]
+  },
+  password: {
+    type: String,
+    required: [true, "wrong username or password"]
+  }
+})
+
+const User = mongoose.model("User", user_schema)
 const Movie = mongoose.model("Movie", movie_schema);
 module.exports = Movie;
+module.exports = User;

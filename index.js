@@ -6,6 +6,8 @@ const the_port = 3001; //assigning server port to 3001
 const time = ((new Date()).getHours()) + ":" +((new Date()).getMinutes()); // declaring variable time to store hours and minutes (HH:MM)
 // const movies = [{id: 1, title: "Jaws", year: 1975, rating: 8}, {id: 2, title: "Avatar", year: 2009, rating: 7.8}, {id: 3, title: "Brazil", year: 1985, rating: 8}]; //movies array
 const Movie = require("./models/movie-model");
+const User = require("./models/movie-model");
+let authentication_flag = false; //---------------------------------------------------- Step 13
 
 app.use(express.json()); //to read json files
 
@@ -36,129 +38,6 @@ app.get("/search", (req, res) => {
     res.send("status:500, error:true, message:\"you have to provide a search");
   }
 });
-
-/* Step 6 ------------------------------------------------------------- */
-
-// app.get("/movies/get/by-date", (req, res) => {
-//   const movies_by_date = movies.sort((movie_1, movie_2) => (movie_1.year > movie_2.year) ? 1 : (movie_1.year < movie_2.year) ? -1 : 0); //sorting with the help of comparing function
-//   // console.log(movies_by_date);
-//   res.status(200);
-//   res.send(`status:200, message:"ok", data: ${movies_by_date.map((movie) => " " + movie.title)}`)
-// })
-
-// app.get("/movies/get/by-rating", (req, res) => {
-//   const movies_by_rating = movies.sort((movie_1, movie_2) => (movie_1.rating > movie_2.rating) ? -1 : (movie_1.rating < movie_2.rating) ? 1 : 0); //sorting with the help of comparing function, this time we put the values opposite to get descending order
-//   // console.log(movies_by_rating);
-//   res.status(200);
-//   res.send(`status:200, message:"ok", data: ${movies_by_rating.map((movie) => " " + movie.title)}`)
-// })
-
-// app.get("/movies/get/by-title", (req, res) => {
-//   const movies_by_title = movies.sort((movie_1, movie_2) => (movie_1.title[0] > movie_2.title[0]) ? 1 : (movie_1.title[0] < movie_2.title[0]) ? -1 : 0); //sorting with the help of comparing function
-//   // console.log(movies_by_title);
-//   res.status(200);
-//   res.send(`status:200, message:"ok", data: ${movies_by_title.map((movie) => " " + movie.title)}`)
-// })
-
-/* Step 7 --------------------------------------------------------------- */
-
-// app.get("/movies/get/id/:id", (req, res) => {
-//   const id = req.params.id;
-//   const movie_by_id = movies.find((movie) => movie.id == id) // used find() since id is unique
-//   if (movie_by_id) {
-//     res.status(200);
-//     res.send(`status:200, message:"ok", data: ${movie_by_id.title}`)
-//   }
-//   else {
-//     res.status(404);
-//     res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`)
-//   }
-// })
-
-/* Step 8 --------------------------------------------------------------- */
-
-// app.post("/movies/post", (req, res) => {
-//   const movie_add_title = req.query.title;
-//   const movie_add_year = req.query.year;
-//   const movie_add_rating = req.query.rating;
-//   if (movie_add_title !== undefined && (movie_add_year !== undefined && movie_add_year.length === 4) && !isNaN(movie_add_year)) { // added (undefined and length) to avoid error when no year query is given
-//     let movie = {};
-//     movie.title = movie_add_title;
-//     movie.year = parseFloat(movie_add_year);
-//     if (movie_add_rating !== undefined){
-//       movie.rating = parseFloat(movie_add_rating);
-//     }
-//     else {
-//       movie.rating = 4;
-//     }
-//     movies.push(movie);
-//     // console.log(movies);
-//     const movie_list = movies.map((movie) => " " + movie.title); //mapping over list, taking the title from each object and adding a space to seperate them
-//     res.status(200);
-//     res.send(`status:200, message:"ok", data: ${movie_list}`);
-//   }
-//   else{
-//     res.status(403);
-//     res.send(`status:403, error:true, message: you cannot create a movie without providing a title and a year.`)
-//   }
-// })
-
-/* Step 9 --------------------------------------------------------------- */
-
-// app.delete("/movies/delete/:id", (req, res) => {
-//   const id = req.params.id;
-//   const movie_by_id = movies.find((movie) => movie.id == id) // used find() since id is unique
-//   if (movie_by_id) {
-//     i = movies.findIndex((movie) => movie.id == id);
-//     movies.splice(i,1);
-//     // console.log(movies);
-//     const movie_list = movies.map((movie) => " " + movie.title); //mapping over list, taking the title from each object and adding a space to seperate them
-//     res.status(200);
-//     res.send(`status:200, message:"ok", data: ${movie_list}`);
-//   }
-//   else {
-//     res.status(404);
-//     res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`)
-//   }
-// })
-
-/* Step 10 --------------------------------------------------------------- */
-
-
-// app.put("/movies/put/:id", (req, res) => {
-//   const id = req.params.id;
-//   const new_title = req.query.title;
-//   const new_year = req.query.year;
-//   const new_rating = req.query.rating;
-//   const movie_found = movies.find(movie => movie.id == id); //used == since id is taken as string
-//   // console.log(movie_found);
-//   if (movie_found) { // if movie in query exists in the array, it will execute
-//     const i = movies.findIndex(movie => movie.id == id);
-//     if (new_title) {  // chexck if new_title is not undefined
-//       movies[i].title = new_title;
-//     }
-//     if (new_year && new_year.length === 4 && !isNaN(new_year)) {
-//       movies[i].year = parseFloat(new_year);
-//     }
-//     if (new_rating && !isNaN(new_rating)) {
-//       movies[i].rating = parseFloat(new_rating);
-//     }
-//     const movie_list = movies.map((movie) => " " + movie.title);
-//     res.status(200);
-//     res.send(`status:200, message:"ok", data: ${movie_list}`);
-//   }
-//   else { // if entered movie id is not in array
-//     res.status(404);
-//     res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`);
-//   }
-//   // console.log(movie_found);
-// })
-
-/* Step 11 ---------------------------------------------------------------- */
-
-//Changed URLs and methods, to get, post, put, delete
-
-/* ------------------------------------------------------------------------ */
 
 /* Step 12 ---------------------------------------------------------------- */
 
@@ -217,96 +96,132 @@ app.get("/movies/get/id/:id", async(req, res) => {
 })
 
 app.post("/movies/post", async(req, res) => {
-  try {
-    const movie_add_title = req.query.title;
-    const movie_add_year = req.query.year;
-    const movie_add_rating = req.query.rating;
-    if (movie_add_title !== undefined && (movie_add_year !== undefined && movie_add_year.length === 4) && !isNaN(movie_add_year)) { // added (undefined and length) to avoid error when no year query is given
-      let movie = {};
-      movie.title = movie_add_title;
-      movie.year = parseFloat(movie_add_year);
-      if (movie_add_rating !== undefined){
-        movie.rating = parseFloat(movie_add_rating);
+  if (authentication_flag) { //--------------------------------------------- Step 13
+    try {
+      const movie_add_title = req.query.title;
+      const movie_add_year = req.query.year;
+      const movie_add_rating = req.query.rating;
+      if (movie_add_title !== undefined && (movie_add_year !== undefined && movie_add_year.length === 4) && !isNaN(movie_add_year)) { // added (undefined and length) to avoid error when no year query is given
+        let movie = {};
+        movie.title = movie_add_title;
+        movie.year = parseFloat(movie_add_year);
+        if (movie_add_rating !== undefined){
+          movie.rating = parseFloat(movie_add_rating);
+        }
+        else {
+          movie.rating = 4;
+        }
+        await Movie.create(movie); //posting the movie object to db
+        // console.log(movies);
+        const movies = await Movie.find({}); //fetching movies after adding the new one
+        res.status(200);
+        res.json(movies);
       }
-      else {
-        movie.rating = 4;
+      else{
+        res.status(403);
+        res.send(`status:403, error:true, message: you cannot create a movie without providing a title and a year(with right format \"YYYY\").`)
       }
-      await Movie.create(movie); //posting the movie object to db
-      // console.log(movies);
-      const movies = await Movie.find({}); //fetching movies after adding the new one
-      res.status(200);
-      res.json(movies);
-    }
-    else{
-      res.status(403);
-      res.send(`status:403, error:true, message: you cannot create a movie without providing a title and a year(with right format \"YYYY\").`)
-    }
-  } catch (error) {
-      console.log(error.message);
-      res.status(500);
-      res.json({message: error.message})
-    }
+    } catch (error) {
+        console.log(error.message);
+        res.status(500);
+        res.json({message: error.message})
+      }
+  } else{
+    console.log("authentication failed")
+  }
 })
 
-// app.post("/movies/from-body", async(req, res) => { // to post a movie directly through the body in API, commented since not required
-//   try {
-//     const movie_post = await Movie.create(req.body);
-//     res.status(200);
-//     res.json(movie_post);
-//   } catch (error) {
-//       console.log(error.message);
-//       res.status(500);
-//       res.json({message: error.message})
-//     }
-// })
-
 app.delete("/movies/delete/:id", async(req, res) => {
-  try {
-    const id = req.params.id;
-    const movie_by_id = await Movie.findByIdAndDelete(id); //deleting the movie by id
-    if (movie_by_id) {
-      const movies = await Movie.find({}); //if deletion is successful, fetch the updated movie list
-      res.status(200);
-      res.json(movies);
-    }
-    else {
-      res.status(404);
-      res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`)
-    }
-  } catch (error) {
-      console.log(error.message);
-      res.status(500);
-      res.json({message: error.message})
+  if (authentication_flag) { //--------------------------------------------- Step 13
+    try {
+      const id = req.params.id;
+      const movie_by_id = await Movie.findByIdAndDelete(id); //deleting the movie by id
+      if (movie_by_id) {
+        const movies = await Movie.find({}); //if deletion is successful, fetch the updated movie list
+        res.status(200);
+        res.json(movies);
+      }
+      else {
+        res.status(404);
+        res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`)
+      }
+    } catch (error) {
+        console.log(error.message);
+        res.status(500);
+        res.json({message: error.message})
+      }
+    } else{
+      console.log("authentication failed")
     }
 })
 
 app.put("/movies/put/:id", async(req, res) => {
+  if (authentication_flag) { //--------------------------------------------- Step 13
+    try {
+      const id = req.params.id;
+      const new_title = req.query.title;
+      const new_year = req.query.year;
+      const new_rating = req.query.rating;
+      const movies = await Movie.find({}); //saving movies list as an array
+      const movie_found = movies.find(movie => movie.id == id); //used == since id is taken as string
+      // console.log(movie_found);
+      if (movie_found) { // if movie in query exists in the array, it will execute
+        if (new_title) {  // check if new_title is not undefined
+          await Movie.findByIdAndUpdate(id, {"title": new_title}); //updating title using find by id and update
+        }
+        if (new_year && new_year.length === 4 && !isNaN(new_year)) {
+          await Movie.findByIdAndUpdate(id, {"year": parseFloat(new_year)});
+        }
+        if (new_rating && !isNaN(new_rating)) {
+          await Movie.findByIdAndUpdate(id, {"rating": parseFloat(new_rating)});
+        }
+        const movies_updated = await Movie.find({});
+        res.status(200);
+        res.json(movies_updated);
+      }
+      else { // if entered movie id is not in array
+        res.status(404);
+        res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`);
+      }
+    } catch (error) {
+        console.log(error.message);
+        res.status(500);
+        res.json({message: error.message})
+      }
+    } else{
+        console.log("authentication failed")
+      }
+})
+
+/* ------------------------------------------------------------------------ */
+
+/* Step 13 ---------------------------------------------------------------- */
+
+app.post("/user/from-body", async(req, res) => { //add a new username and password through API
+  try {
+    const user_new = await User.create(req.body);
+    res.status(200);
+    res.json(user_new);
+  } catch (error) {
+      console.log(error.message);
+      res.status(500);
+      res.json({message: error.message})
+    }
+})
+
+app.get("/user/get/:id", async(req, res) => { // Try this as a get request: http://localhost:3001/user/get/651496def034ddd2cf4862cb?user=Kamal&pass=Dia
   try {
     const id = req.params.id;
-    const new_title = req.query.title;
-    const new_year = req.query.year;
-    const new_rating = req.query.rating;
-    const movies = await Movie.find({}); //saving movies list as an array
-    const movie_found = movies.find(movie => movie.id == id); //used == since id is taken as string
-    // console.log(movie_found);
-    if (movie_found) { // if movie in query exists in the array, it will execute
-      if (new_title) {  // check if new_title is not undefined
-        await Movie.findByIdAndUpdate(id, {"title": new_title}); //updating title using find by id and update
-      }
-      if (new_year && new_year.length === 4 && !isNaN(new_year)) {
-        await Movie.findByIdAndUpdate(id, {"year": parseFloat(new_year)});
-      }
-      if (new_rating && !isNaN(new_rating)) {
-        await Movie.findByIdAndUpdate(id, {"rating": parseFloat(new_rating)});
-      }
-      const movies_updated = await Movie.find({});
-      res.status(200);
-      res.json(movies_updated);
+    const user_name = req.query.user;
+    const password = req.query.pass;
+    const user_by_id = await User.findById(id); //fetching data by id to save time
+    if(user_by_id.user_name == user_name && user_by_id.password == password) {
+      authentication_flag = true;
+    } else {
+      authentication_flag = false;
     }
-    else { // if entered movie id is not in array
-      res.status(404);
-      res.send(`status:404, error:true, message: the movie id= "${id}" does not exist.`);
-    }
+    res.status(200);
+    res.send("ok");
   } catch (error) {
       console.log(error.message);
       res.status(500);
